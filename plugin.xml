@@ -9,19 +9,19 @@
     <description>hbc plugin</description>
     
     <js-module src="www/notification.js" name="Notification">
-        <clobbers target="Notification" />
+        <clobbers target="plugin.Notification" />
     </js-module> 
 
     <js-module src="www/qq.js" name="QQ">
-        <clobbers target="QQ" />
+        <clobbers target="plugin.QQ" />
     </js-module> 
     
     <js-module src="www/toast.js" name="Toast">
-        <clobbers target="Toast" />
+        <clobbers target="plugin.Toast" />
     </js-module>
     
     <js-module src="www/wechat.js" name="Wechat">
-        <clobbers target="Wechat" />
+        <clobbers target="plugin.Wechat" />
     </js-module> 
     
     <!-- android -->
