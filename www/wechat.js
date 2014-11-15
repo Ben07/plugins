@@ -1,5 +1,5 @@
 /*
-message = {title:'text',description:'text',scene:'0/1',thubm:'imageUrl',webpageUrl:'webpageUrl'}
+message = {title:'text',description:'text',scene:'0/1',thumb:'imageUrl',webpageUrl:'webpageUrl'}
 */
 (function() {
   var exec;
