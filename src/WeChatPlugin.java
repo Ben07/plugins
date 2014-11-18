@@ -47,7 +47,7 @@ public class WeChatPlugin extends CordovaPlugin {
 		Log.i("register result",String.valueOf(registerRes));
 		
 		if (!api.isWXAppInstalled()) {
-			Toast.makeText(webView.getContext(), "分享成功！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(webView.getContext(), "您为安装微信", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		
