@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
@@ -46,7 +47,7 @@ public class WeChatPlugin extends CordovaPlugin {
 		Log.i("register result",String.valueOf(registerRes));
 		
 		if (!api.isWXAppInstalled()) {
-			callbackContext.error("请您先安装微信！");
+			Toast.makeText(webView.getContext(), "分享成功！", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		
@@ -77,7 +78,6 @@ public class WeChatPlugin extends CordovaPlugin {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			callbackContext.error(e.getMessage());
 		}
 		return false;
 	}
