@@ -3,6 +3,7 @@ package com.global.hbc.wxapi;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -19,11 +20,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		api = WXAPIFactory.createWXAPI(this, this.getString(R.string.wx_app_id), false);
 		api.handleIntent(getIntent(), this);
+		super.onCreate(savedInstanceState);
 	}
-
+	
 	@Override
 	public void onReq(BaseReq req) {
 		// TODO Auto-generated method stub
@@ -32,6 +33,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	@Override
 	public void onResp(BaseResp resp) {
 		// TODO Auto-generated method stub
+		Runtime runtime = Runtime.getRuntime();
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
 			// 分享成功
@@ -46,7 +48,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			Toast.makeText(getApplicationContext(), "分享拒绝！", Toast.LENGTH_SHORT).show();
 			break;
 		}
-		Runtime runtime = Runtime.getRuntime();
 		try {
 			runtime.exec("input keyevent "+KeyEvent.KEYCODE_BACK);
 		} catch (IOException e) {
