@@ -1,8 +1,10 @@
 package com.global.hbc.wxapi;
 
+import java.io.IOException;
+
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.global.hbc.R;
@@ -32,6 +34,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		// TODO Auto-generated method stub
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
+			Runtime runtime = Runtime.getRuntime();
+			try {
+				runtime.exec("input keyevent "+KeyEvent.KEYCODE_BACK);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// 分享成功
 			Toast.makeText(getApplicationContext(), "分享成功！", Toast.LENGTH_SHORT).show();
 			break;
