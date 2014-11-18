@@ -125,8 +125,7 @@
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-	    android:launchMode="singleTask" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </config-file>
     
 	<source-file src="src/NotificationPlugin.java" target-dir="src/com/global/hbc" />
