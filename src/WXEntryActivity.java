@@ -34,13 +34,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		// TODO Auto-generated method stub
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
-			Runtime runtime = Runtime.getRuntime();
-			try {
-				runtime.exec("input keyevent "+KeyEvent.KEYCODE_BACK);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			// 分享成功
 			Toast.makeText(getApplicationContext(), "分享成功！", Toast.LENGTH_SHORT).show();
 			break;
@@ -52,6 +45,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			// 分享拒绝
 			Toast.makeText(getApplicationContext(), "分享拒绝！", Toast.LENGTH_SHORT).show();
 			break;
+		}
+		Runtime runtime = Runtime.getRuntime();
+		try {
+			runtime.exec("input keyevent "+KeyEvent.KEYCODE_BACK);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
