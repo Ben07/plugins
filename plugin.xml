@@ -24,6 +24,10 @@
         <clobbers target="plugin.Wechat" />
     </js-module> 
     
+    <js-module src="www/sina.js" name="Sina">
+        <clobbers target="plugin.Sina" />
+    </js-module> 
+
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
@@ -41,6 +45,10 @@
 	         
 		      <feature name="WeChatPlugin">
                 <param name="android-package" value="com.global.hbc.WeChatPlugin"/>
+            </feature>
+
+	<feature name="SinaPlugin">
+                <param name="android-package" value="com.global.hbc.SinaPlugin"/>
             </feature>
         </config-file>
     <config-file target="AndroidManifest.xml" parent="/manifest">
@@ -127,6 +135,17 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" 
 	    android:launchMode="singleTask"/>
+
+    <activity
+            android:name="SinaPlugin"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+            </intent-filter>
+        </activity>
     </config-file>
     
 	<source-file src="src/NotificationPlugin.java" target-dir="src/com/global/hbc" />
@@ -142,5 +161,10 @@
 	<source-file src="src/WeChatPlugin.java" target-dir="src/com/global/hbc" />
 	<source-file src="src/WXEntryActivity.java" target-dir="src/com/global/hbc/wxapi" />
 	<source-file src="libs/libammsdk.jar" target-dir="libs" />
+
+	<source-file src="src/SinaPlugin.java" target-dir="src/com/global/hbc" />
+	<source-file src="src/AccessTokenKeeper.java" target-dir="src/com/global/hbc" />
+	<source-file src="src/WBAuthActivity.java" target-dir="src/com/global/hbc" />
+	<source-file src="libs/weibosdkcore.jar" target-dir="libs" />
      </platform>
 </plugin>
