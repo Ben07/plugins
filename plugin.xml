@@ -121,7 +121,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="tencent@string/qq_app_id" />
+                <data android:scheme="tencent1103424741" />
             </intent-filter>
         </activity>
         <activity

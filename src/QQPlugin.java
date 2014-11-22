@@ -33,10 +33,6 @@ public class QQPlugin extends CordovaPlugin {
 			// TODO Auto-generated method stub
 			Toast.makeText(QQPlugin.myWebView.getContext(), "∑÷œÌ≥…π¶£°",
 					Toast.LENGTH_SHORT).show();
-			doComplete((JSONObject) arg0);
-		}
-
-		protected void doComplete(JSONObject values) {
 		}
 
 		@Override
@@ -58,7 +54,7 @@ public class QQPlugin extends CordovaPlugin {
 		if (ACTION_ENTRY.equals(action)) {
 			JSONObject params = args.getJSONObject(0);
 			myWebView = webView;
-			String appid = String.valueOf(R.string.qq_app_id);
+			String appid = webView.getContext().getString(R.string.qq_app_id);
 			mTencent = Tencent.createInstance(appid, webView.getContext());
 
 			Bundle bundle = new Bundle();
