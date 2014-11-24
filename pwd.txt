@@ -1,0 +1,19 @@
+Guluobalu888
+
+<string name="um_appkey">5464d9e0fd98c50c37003983</string>
+<string name="um_secret">6b687a0b144a121d681d196d4997c67e</string>
+<string name="qq_app_id">1103424741</string>
+<string name="wx_app_id">wx69101da36875e566</string>
+<string name="sina_app_id">2768557838</string>
+
+
+ wechat0 = document.getElementById('wechat0');
+        wechat0.addEventListener('click',function(){Wechat.share({title:'≈Û”—»¶',description:'≈Û”—»¶',scene:'1',thubm:'http://m1.img.srcdd.com/farm5/d/2014/1114/15/BC4EA88E1F972A739366C1BBACAAAF59_B1280_1280_427_669.jpeg',webpageUrl:'http://www.baidu.com'},onSuccess,onError);},false);
+        wechat1 = document.getElementById('wechat1');
+        wechat1.addEventListener('click',function(){Wechat.share({title:'∫√”—',description:'∫√”—',scene:'0',thubm:'http://m1.img.srcdd.com/farm5/d/2014/1114/15/BC4EA88E1F972A739366C1BBACAAAF59_B1280_1280_427_669.jpeg',webpageUrl:'http://www.baidu.com'},onSuccess,onError);},false);
+        qq = document.getElementById('qq');
+        qq.addEventListener('click',function(){QQ.share({title:'QQ',description:'QQ',thubm:'http://m1.img.srcdd.com/farm5/d/2014/1114/15/BC4EA88E1F972A739366C1BBACAAAF59_B1280_1280_427_669.jpeg',webpageUrl:'http://www.baidu.com'},onSuccess,onError);},false);
+        tz = description.getElementById('tz');
+        tz.addEventListener('click',function(){Notification.open(onSuccess,onError);},false);
+        toast = document.getElementById('toast');
+        toast.addEventListener('click',function(){Toast.show('xxxholic');},false);
