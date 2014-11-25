@@ -23,7 +23,7 @@ public class QQPlugin extends CordovaPlugin {
 	public static final String KEY_ARG_MESSAGE_DESCRIPTION = "description";
 	public static final String KEY_ARG_MESSAGE_THUMB = "thumb";
 	public static final String KEY_ARG_MESSAGE_WEBPAGEURL = "webpageUrl";
-
+	public Bundle bundle = new Bundle();
 	private static CordovaWebView myWebView;
 	public static Tencent mTencent;
 
@@ -31,19 +31,19 @@ public class QQPlugin extends CordovaPlugin {
 		@Override
 		public void onComplete(Object arg0) {
 			// TODO Auto-generated method stub
-			Toast.makeText(QQPlugin.myWebView.getContext(), "∑÷œÌ≥…π¶£°",
+			Toast.makeText(QQPlugin.myWebView.getContext(), "ÂàÜ‰∫´ÊàêÂäüÔºÅ",
 					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onError(UiError e) {
-			Toast.makeText(QQPlugin.myWebView.getContext(), "∑÷œÌ ß∞‹£°",
+			Toast.makeText(QQPlugin.myWebView.getContext(), "ÂàÜ‰∫´Â§±Ë¥•ÔºÅ",
 					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onCancel() {
-			Toast.makeText(QQPlugin.myWebView.getContext(), "∑÷œÌ»°œ˚£°",
+			Toast.makeText(QQPlugin.myWebView.getContext(), "ÂàÜ‰∫´ÂèñÊ∂àÔºÅ",
 					Toast.LENGTH_SHORT).show();
 		}
 	};
@@ -55,9 +55,9 @@ public class QQPlugin extends CordovaPlugin {
 			JSONObject params = args.getJSONObject(0);
 			myWebView = webView;
 			String appid = webView.getContext().getString(R.string.qq_app_id);
+
 			mTencent = Tencent.createInstance(appid, webView.getContext());
 
-			Bundle bundle = new Bundle();
 			bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL,
 					params.getString(KEY_ARG_MESSAGE_WEBPAGEURL));
 			bundle.putString(QQShare.SHARE_TO_QQ_TITLE,
@@ -69,10 +69,12 @@ public class QQPlugin extends CordovaPlugin {
 
 			mTencent.shareToQQ(webView.getActivity(), bundle, BaseUiListener);
 			return true;
+
 		}
 		return false;
 	}
 
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Constants.REQUEST_QQ_SHARE)
 			if (resultCode == Constants.ACTIVITY_OK) {

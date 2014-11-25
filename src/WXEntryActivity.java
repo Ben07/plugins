@@ -3,7 +3,6 @@ package com.global.hbc.wxapi;
 import java.io.IOException;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -36,16 +35,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		Runtime runtime = Runtime.getRuntime();
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
-			// ·ÖÏí³É¹¦
-			Toast.makeText(getApplicationContext(), "·ÖÏí³É¹¦£¡", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "åˆ†äº«æˆåŠŸï¼", Toast.LENGTH_SHORT).show();
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
-			// ·ÖÏíÈ¡Ïû
-			Toast.makeText(getApplicationContext(), "·ÖÏíÈ¡Ïû£¡", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "åˆ†äº«å–æ¶ˆï¼", Toast.LENGTH_SHORT).show();
 			break;
 		case BaseResp.ErrCode.ERR_AUTH_DENIED:
-			// ·ÖÏí¾Ü¾ø
-			Toast.makeText(getApplicationContext(), "·ÖÏí¾Ü¾ø£¡", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "åˆ†äº«å¤±è´¥ï¼", Toast.LENGTH_SHORT).show();
 			break;
 		}
 		try {

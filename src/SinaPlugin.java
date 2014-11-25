@@ -15,7 +15,6 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMessage;
 import com.sina.weibo.sdk.api.share.BaseResponse;
@@ -53,7 +52,7 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 							public void onCancel() {
 								// TODO Auto-generated method stub
 								Toast.makeText(webView.getContext(),
-										"ÇëÏÈ°²×°Î¢²©¿Í»§¶Ë", Toast.LENGTH_LONG).show();
+										"åˆ†äº«å–æ¶ˆï¼", Toast.LENGTH_LONG).show();
 							}
 						});
 			}
@@ -100,7 +99,7 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 
 		obj.setThumbImage(thumbnail);
 		obj.actionUrl = webpageUrl;
-		obj.defaultText = "º£±ª´å,ÖµµÃĞÅÀµµÄº£Íâ±£½¡Æ·ÌØÂôÆ½Ì¨¡£";
+		obj.defaultText = "æµ·è±¹æ‘ï¼Œä¸“ä¸šçš„æµ·å¤–ä»£è´­å¹³å°";
 		return obj;
 	}
 
