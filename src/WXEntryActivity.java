@@ -36,6 +36,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
 			Toast.makeText(getApplicationContext(), "分享成功！", Toast.LENGTH_SHORT).show();
+			WeChatPlugin.currentCallbackContext.success(((SendAuth.Resp)resp).token);
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
 			Toast.makeText(getApplicationContext(), "分享取消！", Toast.LENGTH_SHORT).show();

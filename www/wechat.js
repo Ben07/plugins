@@ -13,6 +13,9 @@ message = {title:'text',description:'text',scene:'0/1',thumb:'imageUrl',webpageU
     },
     share: function(message, onSuccess, onError) {
       return exec(onSuccess, onError, 'WeChatPlugin', 'share', [message]);
+    },
+    login:function(onSuccess,onError){
+      return exec(onSuccess,onError,'WeChatPlugin','login',[]);
     }
   };
 

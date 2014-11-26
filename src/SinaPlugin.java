@@ -1,4 +1,4 @@
-package com.global.hbc;
+﻿package com.global.hbc;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,7 +38,7 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 	@Override
 	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
-		if (ACTION_ENTRY.equals("share")) {
+		if (ACTION_ENTRY.equals(action)) {
 			mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(webView.getContext(),
 					webView.getContext().getString(R.string.sina_app_id));
 

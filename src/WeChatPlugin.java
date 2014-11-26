@@ -26,7 +26,7 @@ public class WeChatPlugin extends CordovaPlugin {
 	public static final String KEY_ARG_MESSAGE_DESCRIPTION = "description";
 	public static final String KEY_ARG_MESSAGE_THUMB = "thumb";
 	public static final String KEY_ARG_MESSAGE_WEBPAGEURL = "webpageUrl";
-
+	public static CallbackContext currentCallbackContext = null;
 	private IWXAPI api;
 
 	@Override
@@ -34,10 +34,25 @@ public class WeChatPlugin extends CordovaPlugin {
 			CallbackContext callbackContext) throws JSONException {
 		if (ACTION_ENTRY.equals(action)) {
 			return share(args, callbackContext);
+		}else if("login".equals(action)){
+			login(args,callbackContext);
+			currentCallbackContext = callbackContext;
+			return true;
 		}
 		return false;
 	}
 
+	private void login(JSONArray args, CallbackContext callbackContext)
+			throws JSONException {
+		String id = webView.getContext().getString(R.string.wx_app_id);
+		api = WXAPIFactory.createWXAPI(this.webView.getContext(), id, true);
+		api.registerApp(id);
+		final SendAuth.Req req = new SendAuth.Req();
+		req.scope = "snsapi_userinfo";
+		req.state = "wechat_sdk_demo_test";
+		api.sendReq(req);
+	}
+	
 	private boolean share(JSONArray args, CallbackContext callbackContext)
 			throws JSONException {
 		JSONObject params = args.getJSONObject(0);
