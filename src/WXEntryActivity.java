@@ -1,4 +1,4 @@
-package com.global.hbc.wxapi;
+﻿package com.global.hbc.wxapi;
 
 import java.io.IOException;
 
@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.global.hbc.R;
+import com.global.hbc.WeChatPlugin;
 import com.tencent.mm.sdk.openapi.BaseReq;
 import com.tencent.mm.sdk.openapi.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
