@@ -31,19 +31,19 @@ public class QQPlugin extends CordovaPlugin {
 		@Override
 		public void onComplete(Object arg0) {
 			// TODO Auto-generated method stub
-			Toast.makeText(QQPlugin.myWebView.getContext(), "分享成功！",
+			Toast.makeText(QQPlugin.myWebView.getContext(), "成功！",
 					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onError(UiError e) {
-			Toast.makeText(QQPlugin.myWebView.getContext(), "分享失败！",
+			Toast.makeText(QQPlugin.myWebView.getContext(), "失败！",
 					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onCancel() {
-			Toast.makeText(QQPlugin.myWebView.getContext(), "分享取消！",
+			Toast.makeText(QQPlugin.myWebView.getContext(), "取消！",
 					Toast.LENGTH_SHORT).show();
 		}
 	};

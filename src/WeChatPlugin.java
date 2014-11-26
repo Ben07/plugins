@@ -1,4 +1,4 @@
-﻿package com.global.hbc;
+package com.global.hbc;
 
 import java.net.URL;
 

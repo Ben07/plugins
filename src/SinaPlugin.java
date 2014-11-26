@@ -1,4 +1,4 @@
-﻿package com.global.hbc;
+package com.global.hbc;
 
 import java.io.IOException;
 import java.net.URL;
@@ -52,7 +52,7 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 							public void onCancel() {
 								// TODO Auto-generated method stub
 								Toast.makeText(webView.getContext(),
-										"分享取消！", Toast.LENGTH_LONG).show();
+										"取消！", Toast.LENGTH_LONG).show();
 							}
 						});
 			}

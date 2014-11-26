@@ -1,4 +1,4 @@
-﻿package com.global.hbc.wxapi;
+package com.global.hbc.wxapi;
 
 import java.io.IOException;
 
@@ -37,14 +37,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		Runtime runtime = Runtime.getRuntime();
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
-			Toast.makeText(getApplicationContext(), "分享成功！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "成功！", Toast.LENGTH_SHORT).show();
 			WeChatPlugin.currentCallbackContext.success(((SendAuth.Resp)resp).token);
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
-			Toast.makeText(getApplicationContext(), "分享取消！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "取消！", Toast.LENGTH_SHORT).show();
 			break;
 		case BaseResp.ErrCode.ERR_AUTH_DENIED:
-			Toast.makeText(getApplicationContext(), "分享失败！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "失败！", Toast.LENGTH_SHORT).show();
 			break;
 		}
 		try {
