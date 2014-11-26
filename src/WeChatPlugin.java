@@ -1,4 +1,4 @@
-package com.global.hbc;
+﻿package com.global.hbc;
 
 import java.net.URL;
 
@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.SendAuth;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
