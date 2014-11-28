@@ -9,8 +9,11 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQAuth;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.IUiListener;
@@ -26,6 +29,26 @@ public class QQPlugin extends CordovaPlugin {
 	public Bundle bundle = new Bundle();
 	private static CordovaWebView myWebView;
 	public static Tencent mTencent;
+	private QQAuth mQQAuth;
+	private CallbackContext mCallbackContext;
+
+	IUiListener BaseUiListener1 = new IUiListener() {
+
+		@Override
+		public void onCancel() {}
+
+		@Override
+		public void onComplete(Object arg0) {
+			// TODO Auto-generated method stub
+			try {
+				JSONObject json = (JSONObject) arg0;
+				mCallbackContext.success(json);
+			} catch (Exception e) {	}
+		}
+
+		@Override
+		public void onError(UiError arg0) {	}
+	};
 
 	IUiListener BaseUiListener = new IUiListener() {
 		@Override
@@ -33,6 +56,13 @@ public class QQPlugin extends CordovaPlugin {
 			// TODO Auto-generated method stub
 			Toast.makeText(QQPlugin.myWebView.getContext(), "成功！",
 					Toast.LENGTH_SHORT).show();
+			try {
+				UserInfo info = new UserInfo(webView.getContext(),
+						mQQAuth.getQQToken());
+				info.getUserInfo(BaseUiListener1);
+			} catch (Exception e) {
+
+			}
 		}
 
 		@Override
@@ -51,12 +81,12 @@ public class QQPlugin extends CordovaPlugin {
 	@Override
 	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
+		String appid = webView.getContext().getString(R.string.qq_app_id);
+		mCallbackContext = callbackContext;
+		mTencent = Tencent.createInstance(appid, webView.getContext());
 		if (ACTION_ENTRY.equals(action)) {
 			JSONObject params = args.getJSONObject(0);
 			myWebView = webView;
-			String appid = webView.getContext().getString(R.string.qq_app_id);
-
-			mTencent = Tencent.createInstance(appid, webView.getContext());
 
 			bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL,
 					params.getString(KEY_ARG_MESSAGE_WEBPAGEURL));
@@ -69,7 +99,10 @@ public class QQPlugin extends CordovaPlugin {
 
 			mTencent.shareToQQ(webView.getActivity(), bundle, BaseUiListener);
 			return true;
-
+		} else if ("login".equals(action)) {
+			mQQAuth = QQAuth.createInstance(appid, webView.getContext());
+			mTencent.login(webView.getActivity(), "all", BaseUiListener);
+			return true;
 		}
 		return false;
 	}
