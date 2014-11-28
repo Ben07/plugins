@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -21,11 +22,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		api = WXAPIFactory.createWXAPI(this, this.getString(R.string.wx_app_id), false);
+		api = WXAPIFactory.createWXAPI(this,
+				this.getString(R.string.wx_app_id), false);
 		api.handleIntent(getIntent(), this);
 		super.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	public void onReq(BaseReq req) {
 		// TODO Auto-generated method stub
@@ -37,18 +39,27 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		Runtime runtime = Runtime.getRuntime();
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
-			Toast.makeText(getApplicationContext(), "成功！", Toast.LENGTH_SHORT).show();
-			WeChatPlugin.currentCallbackContext.success(((SendAuth.Resp)resp).token);
+			Toast.makeText(getApplicationContext(), "成功！", Toast.LENGTH_SHORT)
+					.show();
+			try {
+				WeChatPlugin.currentCallbackContext
+						.success(((SendAuth.Resp) resp).token);
+			} catch (Exception e) {
+				Log.e("exception", e.getMessage());
+			}
+
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
-			Toast.makeText(getApplicationContext(), "取消！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "取消！", Toast.LENGTH_SHORT)
+					.show();
 			break;
 		case BaseResp.ErrCode.ERR_AUTH_DENIED:
-			Toast.makeText(getApplicationContext(), "失败！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "失败！", Toast.LENGTH_SHORT)
+					.show();
 			break;
 		}
 		try {
-			runtime.exec("input keyevent "+KeyEvent.KEYCODE_BACK);
+			runtime.exec("input keyevent " + KeyEvent.KEYCODE_BACK);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
