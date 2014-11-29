@@ -19,21 +19,15 @@ public class ToastPlugin extends CordovaPlugin{
 	public boolean execute(String action, JSONArray args,CallbackContext callbackContext) throws JSONException{
 		if(ACTION_ENTRY.equals(action)){
 			JSONObject params = args.getJSONObject(0);
-			Toast toast = null;
 			String message = params.getString(KEY_ARG_MESSAGE);
 			int time = params.getInt(KEY_ARG_TIME);
-			int pos = params.getInt(KEY_ARG_POS);
 			if(time == 0){
-				toast = Toast.makeText(webView.getContext(), message, Toast.LENGTH_SHORT);
+				Toast.makeText(webView.getContext(), message,
+						Toast.LENGTH_SHORT).show();
 			}else{
-				toast = Toast.makeText(webView.getContext(), message, Toast.LENGTH_LONG);
+				Toast.makeText(webView.getContext(), message,
+						Toast.LENGTH_LONG).show();
 			}
-			if(pos == 0){
-				toast.setGravity(Gravity.BOTTOM, 0, 0);
-			}else{
-				toast.setGravity(Gravity.CENTER, 0, 0);
-			}
-			toast.show();
 			return true;
 		}
 		return false;
