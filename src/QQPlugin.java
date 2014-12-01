@@ -35,7 +35,8 @@ public class QQPlugin extends CordovaPlugin {
 	IUiListener BaseUiListener1 = new IUiListener() {
 
 		@Override
-		public void onCancel() {}
+		public void onCancel() {
+		}
 
 		@Override
 		public void onComplete(Object arg0) {
@@ -43,36 +44,49 @@ public class QQPlugin extends CordovaPlugin {
 			try {
 				JSONObject json = (JSONObject) arg0;
 				mCallbackContext.success(json);
-			} catch (Exception e) {	}
+			} catch (Exception e) {
+			}
 		}
 
 		@Override
-		public void onError(UiError arg0) {	}
+		public void onError(UiError arg0) {
+		}
 	};
 
 	IUiListener BaseUiListener = new IUiListener() {
 		@Override
 		public void onComplete(Object arg0) {
 			// TODO Auto-generated method stub
-			Toast.makeText(QQPlugin.myWebView.getContext(), "成功！",
-					Toast.LENGTH_SHORT).show();
 			try {
 				UserInfo info = new UserInfo(webView.getContext(),
 						mQQAuth.getQQToken());
 				info.getUserInfo(BaseUiListener1);
 			} catch (Exception e) {
-
+				try {
+					mCallbackContext.success();
+				} catch (Exception ee) {
+				}
 			}
+			Toast.makeText(QQPlugin.myWebView.getContext(), "成功！",
+					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onError(UiError e) {
+			try {
+				mCallbackContext.success();
+			} catch (Exception ee) {
+			}
 			Toast.makeText(QQPlugin.myWebView.getContext(), "失败！",
 					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onCancel() {
+			try {
+				mCallbackContext.success();
+			} catch (Exception ee) {
+			}
 			Toast.makeText(QQPlugin.myWebView.getContext(), "取消！",
 					Toast.LENGTH_SHORT).show();
 		}
@@ -92,12 +106,17 @@ public class QQPlugin extends CordovaPlugin {
 					params.getString(KEY_ARG_MESSAGE_WEBPAGEURL));
 			bundle.putString(QQShare.SHARE_TO_QQ_TITLE,
 					params.getString(KEY_ARG_MESSAGE_TITLE));
-			bundle.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
-					params.getString(KEY_ARG_MESSAGE_THUMB));
+			if (params.getString(KEY_ARG_MESSAGE_THUMB) != null
+					&& !"".equals(params.getString(KEY_ARG_MESSAGE_THUMB))
+					&& !"null".equals(params.getString(KEY_ARG_MESSAGE_THUMB))) {
+				bundle.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
+						params.getString(KEY_ARG_MESSAGE_THUMB));
+			}
 			bundle.putString(QQShare.SHARE_TO_QQ_SUMMARY,
 					params.getString(KEY_ARG_MESSAGE_DESCRIPTION));
 
 			mTencent.shareToQQ(webView.getActivity(), bundle, BaseUiListener);
+
 			return true;
 		} else if ("login".equals(action)) {
 			mQQAuth = QQAuth.createInstance(appid, webView.getContext());

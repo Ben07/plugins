@@ -27,19 +27,21 @@ public class HbcActivity extends CordovaActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		super.init();
-
 		String index = Config.getStartUrl();
+		// super.loadUrl(index + "index.html");
+		// Set by <content src="index.html" /> in config.xml
 
 		Bundle bun = getIntent().getExtras();
-		if (bun != null) {
-			String type = bun.getString("type");
-			String id = bun.getString("id");
+		// String index = Config.getStartUrl();
 
+		String type = bun.getString("type");
+		String id = bun.getString("id");
+		if (type != null) {
 			if ("product".equals(type)) {
 				super.loadUrl(index + "#notification?productid=" + id);
 			}
 			if ("article".equals(type)) {
-				super.loadUrl(index + "#notification?articleid=" + id);
+				super.loadUrl(index + "#notification?article=" + id);
 			}
 			if ("idcard".equals(type)) {
 				super.loadUrl(index + "#notification?idcard=" + id);
@@ -55,22 +57,16 @@ public class HbcActivity extends CordovaActivity {
 					super.loadUrl(index + "#notification?eventproductid=" + id);
 					break;
 				case 2:
-					super.loadUrl(index + "#notification?eventproductlist="
-							+ id);
-					break;
+					super.loadUrl(index + "#notification?eventproductlist" + id);
 				case 3:
-					super.loadUrl(index + "#notification?eventmidpage=" + id);
-					break;
+					super.loadUrl(index + "#notification?eventmidpage" + id);
 				case 4:
-					super.loadUrl(index + "#notification?eventarticleid=" + id);
-					break;
+					super.loadUrl(index + "#notification?eventarticleid" + id);
 				}
 			}
 		} else {
 			super.loadUrl(index + "index.html");
 		}
-		// Set by <content src="index.html" /> in config.xml
-		// super.loadUrl(Config.getStartUrl());
 		// super.loadUrl("file:///android_asset/www/index.html");
 	}
 }

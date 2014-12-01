@@ -37,16 +37,20 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	public void onResp(BaseResp resp) {
 		// TODO Auto-generated method stub
 		Runtime runtime = Runtime.getRuntime();
+		try {
+			WeChatPlugin.currentCallbackContext.success();
+		} catch (Exception ee) {
+		}
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
-			Toast.makeText(getApplicationContext(), "成功！", Toast.LENGTH_SHORT)
-					.show();
 			try {
 				WeChatPlugin.currentCallbackContext
 						.success(((SendAuth.Resp) resp).token);
 			} catch (Exception e) {
-				Log.e("exception", e.getMessage());
+				Log.e("exception", e.getMessage());				
 			}
+			Toast.makeText(getApplicationContext(), "成功！", Toast.LENGTH_SHORT)
+					.show();
 
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:

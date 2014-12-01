@@ -33,11 +33,11 @@ public class WeChatPlugin extends CordovaPlugin {
 	@Override
 	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
+		currentCallbackContext = callbackContext;
 		if (ACTION_ENTRY.equals(action)) {
 			return share(args, callbackContext);
-		}else if("login".equals(action)){
-			login(args,callbackContext);
-			currentCallbackContext = callbackContext;
+		} else if ("login".equals(action)) {
+			login(args, callbackContext);
 			return true;
 		}
 		return false;
@@ -53,23 +53,24 @@ public class WeChatPlugin extends CordovaPlugin {
 		req.state = "wechat_sdk_demo_test";
 		api.sendReq(req);
 	}
-	
+
 	private boolean share(JSONArray args, CallbackContext callbackContext)
 			throws JSONException {
 		JSONObject params = args.getJSONObject(0);
 		String appid = webView.getContext().getString(R.string.wx_app_id);
 		api = WXAPIFactory.createWXAPI(webView.getContext(), appid, true);
 		boolean registerRes = api.registerApp(appid);
-		Log.i("register result",String.valueOf(registerRes));
-		
+		Log.i("register result", String.valueOf(registerRes));
+
 		if (!api.isWXAppInstalled()) {
-			Toast.makeText(webView.getContext(), "请您先安装微信客户端", Toast.LENGTH_SHORT).show();
+			Toast.makeText(webView.getContext(), "请您先安装微信客户端",
+					Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		
+
 		WXWebpageObject webpage = new WXWebpageObject();
 		webpage.webpageUrl = params.getString(KEY_ARG_MESSAGE_WEBPAGEURL);
-		
+
 		WXMediaMessage msg = new WXMediaMessage(webpage);
 		msg.title = params.getString(KEY_ARG_MESSAGE_TITLE);
 		msg.description = params.getString(KEY_ARG_MESSAGE_DESCRIPTION);
@@ -82,20 +83,17 @@ public class WeChatPlugin extends CordovaPlugin {
 			thumbnail = BitmapFactory.decodeStream(thumbnailUrl
 					.openConnection().getInputStream());
 			thumbnail = Bitmap.createScaledBitmap(thumbnail, 150, 150, true);
-
 			msg.setThumbImage(thumbnail);
-			
-			SendMessageToWX.Req req = new SendMessageToWX.Req();
-			req.transaction = String.valueOf(System.currentTimeMillis());
-			req.message = msg;
-			req.scene = params.getInt(KEY_ARG_SCENE);
-			boolean sendRes = api.sendReq(req);
-			Log.i("register result",String.valueOf(sendRes));
-			return true;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		SendMessageToWX.Req req = new SendMessageToWX.Req();
+		req.transaction = String.valueOf(System.currentTimeMillis());
+		req.message = msg;
+		req.scene = params.getInt(KEY_ARG_SCENE);
+		boolean sendRes = api.sendReq(req);
+		return sendRes;
 	}
-	
+
 }
