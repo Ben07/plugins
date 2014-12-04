@@ -61,32 +61,19 @@ public class QQPlugin extends CordovaPlugin {
 				UserInfo info = new UserInfo(webView.getContext(),
 						mQQAuth.getQQToken());
 				info.getUserInfo(BaseUiListener1);
-			} catch (Exception e) {
-				try {
-					mCallbackContext.success();
-				} catch (Exception ee) {
-				}
-			}
+			} catch (Exception e) {}
 			Toast.makeText(QQPlugin.myWebView.getContext(), "成功！",
 					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onError(UiError e) {
-			try {
-				mCallbackContext.success();
-			} catch (Exception ee) {
-			}
 			Toast.makeText(QQPlugin.myWebView.getContext(), "失败！",
 					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onCancel() {
-			try {
-				mCallbackContext.success();
-			} catch (Exception ee) {
-			}
 			Toast.makeText(QQPlugin.myWebView.getContext(), "取消！",
 					Toast.LENGTH_SHORT).show();
 		}

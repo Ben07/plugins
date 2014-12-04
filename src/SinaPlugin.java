@@ -89,11 +89,6 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 
 			boolean sendRes = mWeiboShareAPI.sendRequest(request);
 			Log.e("send result", String.valueOf(sendRes));
-			try {
-				callbackContext.success();
-			} catch (Exception e) {
-
-			}
 			return true;
 		}
 		return false;

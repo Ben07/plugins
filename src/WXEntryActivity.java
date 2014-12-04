@@ -37,10 +37,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	public void onResp(BaseResp resp) {
 		// TODO Auto-generated method stub
 		Runtime runtime = Runtime.getRuntime();
-		try {
-			WeChatPlugin.currentCallbackContext.success();
-		} catch (Exception ee) {
-		}
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
 			try {
@@ -51,7 +47,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			}
 			Toast.makeText(getApplicationContext(), "成功！", Toast.LENGTH_SHORT)
 					.show();
-
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
 			Toast.makeText(getApplicationContext(), "取消！", Toast.LENGTH_SHORT)
