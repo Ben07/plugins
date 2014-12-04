@@ -9,16 +9,16 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.tencent.connect.UserInfo;
-import com.tencent.connect.auth.QQAuth;
+import com.tencent.connect.auth.QQToken;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+import com.umeng.common.message.Log;
 
 public class QQPlugin extends CordovaPlugin {
 	public static final String ACTION_ENTRY = "share";
@@ -29,8 +29,8 @@ public class QQPlugin extends CordovaPlugin {
 	public Bundle bundle = new Bundle();
 	private static CordovaWebView myWebView;
 	public static Tencent mTencent;
-	private QQAuth mQQAuth;
 	private CallbackContext mCallbackContext;
+	private String openID = "";
 
 	IUiListener BaseUiListener1 = new IUiListener() {
 
@@ -43,13 +43,17 @@ public class QQPlugin extends CordovaPlugin {
 			// TODO Auto-generated method stub
 			try {
 				JSONObject json = (JSONObject) arg0;
+				Log.e("--------openID", openID);
+				json.put("openID", openID);
 				mCallbackContext.success(json);
 			} catch (Exception e) {
+				Log.e("---------err", e.getMessage());
 			}
 		}
 
 		@Override
 		public void onError(UiError arg0) {
+			Log.e("---------err arg0", arg0.errorMessage);
 		}
 	};
 
@@ -58,10 +62,18 @@ public class QQPlugin extends CordovaPlugin {
 		public void onComplete(Object arg0) {
 			// TODO Auto-generated method stub
 			try {
-				UserInfo info = new UserInfo(webView.getContext(),
-						mQQAuth.getQQToken());
+//				UserInfo info = new UserInfo(webView.getContext(),
+//						mTencent.getQQToken());
+//				info.getUserInfo(BaseUiListener1);
+				openID = ((JSONObject)arg0).getString("openid");
+				Log.e("----------openid", openID);
+				QQToken qqToken = mTencent.getQQToken();
+				UserInfo info = new UserInfo(webView.getContext(),qqToken);
 				info.getUserInfo(BaseUiListener1);
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Toast.makeText(QQPlugin.myWebView.getContext(), "异常2",
+						Toast.LENGTH_SHORT).show();
+			}
 			Toast.makeText(QQPlugin.myWebView.getContext(), "成功！",
 					Toast.LENGTH_SHORT).show();
 		}
@@ -84,11 +96,11 @@ public class QQPlugin extends CordovaPlugin {
 			CallbackContext callbackContext) throws JSONException {
 		String appid = webView.getContext().getString(R.string.qq_app_id);
 		mCallbackContext = callbackContext;
+		myWebView = webView;
 		mTencent = Tencent.createInstance(appid, webView.getContext());
 		if (ACTION_ENTRY.equals(action)) {
 			JSONObject params = args.getJSONObject(0);
-			myWebView = webView;
-
+			
 			bundle.putString(QQShare.SHARE_TO_QQ_TARGET_URL,
 					params.getString(KEY_ARG_MESSAGE_WEBPAGEURL));
 			bundle.putString(QQShare.SHARE_TO_QQ_TITLE,
@@ -106,8 +118,7 @@ public class QQPlugin extends CordovaPlugin {
 
 			return true;
 		} else if ("login".equals(action)) {
-			mQQAuth = QQAuth.createInstance(appid, webView.getContext());
-			mTencent.login(webView.getActivity(), "all", BaseUiListener);
+			mTencent.login(webView.getActivity(), "", BaseUiListener);
 			return true;
 		}
 		return false;
