@@ -96,12 +96,13 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 			boolean sendRes = mWeiboShareAPI.sendRequest(request);
 			Log.e("send result", String.valueOf(sendRes));
 			return true;
-		}else{
+		}else if("login".equals(action)){
 			mCallbackContext = callbackContext;
 			mWeiboAuth = new WeiboAuth(webView.getContext(), webView
 					.getContext().getString(R.string.sina_app_id), "https://api.weibo.com/oauth2/default.html",
 					"");
 			mWeiboAuth.authorize(new AuthListener(), WeiboAuth.OBTAIN_AUTH_CODE);
+			return true;
 		}
 		return false;
 	}
