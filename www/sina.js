@@ -9,6 +9,9 @@ message = {title:'text',description:'text',thubm:'imageUrl',webpageUrl:'webpageU
 	module.exports = {
 		share:function(message,onSuccess,onError){
 			return exec(onSuccess,onError,'SinaPlugin','share',[message]);
+		},
+		login:function(onSuccess,onError){
+			return exec(onSuccess,onError,'SinaPlugin','login',[]);
 		}
 	};
 }).call(this);

@@ -12,10 +12,10 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.common.base.Strings;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMessage;
@@ -25,7 +25,10 @@ import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
+import com.sina.weibo.sdk.auth.WeiboAuth;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.constant.WBConstants;
+import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.utils.Utility;
 
 public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response {
@@ -36,6 +39,9 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 	public static final String KEY_ARG_MESSAGE_WEBPAGEURL = "webpageUrl";
 
 	private IWeiboShareAPI mWeiboShareAPI = null;
+	private WeiboAuth mWeiboAuth;
+	private CallbackContext mCallbackContext;
+	
 	@Override
 	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
@@ -90,10 +96,43 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 			boolean sendRes = mWeiboShareAPI.sendRequest(request);
 			Log.e("send result", String.valueOf(sendRes));
 			return true;
+		}else{
+			mCallbackContext = callbackContext;
+			mWeiboAuth = new WeiboAuth(webView.getContext(), webView
+					.getContext().getString(R.string.sina_app_id), "https://api.weibo.com/oauth2/default.html",
+					"");
+			mWeiboAuth.authorize(new AuthListener(), WeiboAuth.OBTAIN_AUTH_CODE);
 		}
 		return false;
 	}
-	
+	class AuthListener implements WeiboAuthListener {
+
+		@Override
+		public void onCancel() {
+			// TODO Auto-generated method stub
+			Toast.makeText(webView.getContext(), "取消！",
+					Toast.LENGTH_LONG).show();
+			
+		}
+
+		@Override
+		public void onComplete(Bundle arg0) {
+			// TODO Auto-generated method stub
+			try{
+				String code = arg0.getString("code");
+				mCallbackContext.success(code);
+			}catch(Exception e){
+				
+			}
+		}
+
+		@Override
+		public void onWeiboException(WeiboException arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 	private TextObject getTextObj(String title, String des,String webpageUrl){
 		TextObject obj = new TextObject();
 		obj.title = title;
