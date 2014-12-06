@@ -5,7 +5,6 @@ import java.net.URL;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,14 +25,10 @@ import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuth;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.sina.weibo.sdk.exception.WeiboException;
-import com.sina.weibo.sdk.net.AsyncWeiboRunner;
-import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.net.WeiboParameters;
 import com.sina.weibo.sdk.utils.Utility;
 
 public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response {
@@ -125,50 +120,12 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 
 		}
 
-		@SuppressWarnings("static-access")
 		@Override
 		public void onComplete(Bundle arg0) {
 			// TODO Auto-generated method stub
 			try {
 				String code = arg0.getString("code");
-				// mCallbackContext.success(code);
-				WeiboParameters requestParams = new WeiboParameters();
-				requestParams.put(WBConstants.AUTH_PARAMS_CLIENT_ID, webView
-						.getContext().getString(R.string.sina_app_id));
-				requestParams.put(WBConstants.AUTH_PARAMS_CLIENT_SECRET,
-						webView.getContext()
-								.getString(R.string.sina_app_srcret));
-				requestParams.put(WBConstants.AUTH_PARAMS_GRANT_TYPE,
-						"authorization_code");
-				requestParams.put(WBConstants.AUTH_PARAMS_CODE, code);
-				requestParams.put(WBConstants.AUTH_PARAMS_REDIRECT_URL,
-						DIRECT_URL);
-
-				new AsyncWeiboRunner().requestAsync(
-						"https://open.weibo.cn/oauth2/access_token",
-						requestParams, "POST", new RequestListener() {
-							@Override
-							public void onComplete(String response) {
-								Oauth2AccessToken token = Oauth2AccessToken
-										.parseAccessToken(response);
-								if (token != null && token.isSessionValid()) {
-									JSONObject obj = new JSONObject();
-									try {
-										obj.put("token", token.getToken());
-										obj.put("uid", token.getUid());
-										mCallbackContext.success(obj);
-									} catch (JSONException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-								} else {
-								}
-							}
-
-							@Override
-							public void onWeiboException(WeiboException e) {
-							}
-						});
+				mCallbackContext.success(code);
 			} catch (Exception e) {
 
 			}
