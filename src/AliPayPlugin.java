@@ -5,7 +5,9 @@ import java.net.URLDecoder;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.Handler;
 import android.os.Message;
@@ -25,8 +27,8 @@ public class AliPayPlugin extends CordovaPlugin {
 
 			// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
 			if (TextUtils.equals(resultStatus, "9000")) {
-				Toast.makeText(webView.getContext(), "支付成功", Toast.LENGTH_SHORT)
-						.show();
+//				Toast.makeText(webView.getContext(), "支付成功", Toast.LENGTH_SHORT)
+//						.show();
 			} else {
 				// 判断resultStatus 为非“9000”则代表可能支付失败
 				// “8000”
@@ -44,11 +46,12 @@ public class AliPayPlugin extends CordovaPlugin {
 		};
 	};
 
-	public boolean execute(String action, String arg,
+	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
 		if (ACTION_ENTRY.equals(action)) {
 			try {
-				final String info = URLDecoder.decode(arg, "utf-8");
+				JSONObject obj = args.getJSONObject(0);
+ 				final String info = URLDecoder.decode(obj.getString("message"), "utf-8");
 
 				Runnable payRunnable = new Runnable() {
 					@Override

@@ -8,7 +8,7 @@ message 为后台返回
 
   module.exports = {
     pay:function(message,onSuccess,onError){
-      return exec(onSuccess,onError,'AliPayPlugin','pay',message);
+      return exec(onSuccess,onError,'AliPayPlugin','pay',[message]);
     }
   };
 
