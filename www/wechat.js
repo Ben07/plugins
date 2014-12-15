@@ -1,5 +1,6 @@
 /*
 message = {title:'text',description:'text',scene:'0/1',thumb:'imageUrl',webpageUrl:'webpageUrl'}
+pay的message直接由后台返回
 */
 (function() {
   var exec;
@@ -16,6 +17,9 @@ message = {title:'text',description:'text',scene:'0/1',thumb:'imageUrl',webpageU
     },
     login:function(onSuccess,onError){
       return exec(onSuccess,onError,'WeChatPlugin','login',[]);
+    },
+    pay:function(message,onSuccess,onError){
+      return exec(onSuccess,onError,'WeChatPlugin','pay',[message]);
     }
   };
 

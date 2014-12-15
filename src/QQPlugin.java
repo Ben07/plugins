@@ -18,7 +18,6 @@ import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
-import com.umeng.common.message.Log;
 
 public class QQPlugin extends CordovaPlugin {
 	public static final String ACTION_ENTRY = "share";
@@ -43,17 +42,14 @@ public class QQPlugin extends CordovaPlugin {
 			// TODO Auto-generated method stub
 			try {
 				JSONObject json = (JSONObject) arg0;
-				Log.e("--------openID", openID);
 				json.put("openID", openID);
 				mCallbackContext.success(json);
 			} catch (Exception e) {
-				Log.e("---------err", e.getMessage());
 			}
 		}
 
 		@Override
 		public void onError(UiError arg0) {
-			Log.e("---------err arg0", arg0.errorMessage);
 		}
 	};
 
@@ -62,17 +58,12 @@ public class QQPlugin extends CordovaPlugin {
 		public void onComplete(Object arg0) {
 			// TODO Auto-generated method stub
 			try {
-//				UserInfo info = new UserInfo(webView.getContext(),
-//						mTencent.getQQToken());
-//				info.getUserInfo(BaseUiListener1);
 				openID = ((JSONObject)arg0).getString("openid");
-				Log.e("----------openid", openID);
 				QQToken qqToken = mTencent.getQQToken();
 				UserInfo info = new UserInfo(webView.getContext(),qqToken);
 				info.getUserInfo(BaseUiListener1);
 			} catch (Exception e) {
-				Toast.makeText(QQPlugin.myWebView.getContext(), "异常2",
-						Toast.LENGTH_SHORT).show();
+				
 			}
 			Toast.makeText(QQPlugin.myWebView.getContext(), "成功！",
 					Toast.LENGTH_SHORT).show();

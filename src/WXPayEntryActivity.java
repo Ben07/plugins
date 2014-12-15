@@ -3,34 +3,40 @@ package com.global.hbc.wxapi;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.global.hbc.R;
-import com.global.hbc.WeChatPlugin;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
+
 	private IWXAPI api;
-
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		api = WXAPIFactory.createWXAPI(this,
-				this.getString(R.string.wx_app_id), false);
-		api.handleIntent(getIntent(), this);
-		super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+    	api = WXAPIFactory.createWXAPI(this, "wx69101da36875e566");
+        api.handleIntent(getIntent(), this);
+    }
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+        api.handleIntent(intent, this);
 	}
-
+	
 	@Override
-	public void onReq(BaseReq req) {
+	public void onReq(BaseReq arg0) {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -39,12 +45,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		Runtime runtime = Runtime.getRuntime();
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
-			try {
-				WeChatPlugin.currentCallbackContext
-						.success(((SendAuth.Resp) resp).code);
-			} catch (Exception e) {
-				Log.e("exception", e.getMessage());				
-			}
 			Toast.makeText(getApplicationContext(), "成功！", Toast.LENGTH_SHORT)
 					.show();
 			break;
@@ -64,4 +64,5 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			e.printStackTrace();
 		}
 	}
+
 }

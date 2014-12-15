@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.view.Gravity;
 import android.widget.Toast;
 
 public class ToastPlugin extends CordovaPlugin{

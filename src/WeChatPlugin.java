@@ -13,12 +13,13 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.SendAuth;
-import com.tencent.mm.sdk.openapi.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.tencent.mm.sdk.openapi.WXMediaMessage;
-import com.tencent.mm.sdk.openapi.WXWebpageObject;
 
 public class WeChatPlugin extends CordovaPlugin {
 	public static final String ACTION_ENTRY = "share";
@@ -39,8 +40,29 @@ public class WeChatPlugin extends CordovaPlugin {
 		} else if ("login".equals(action)) {
 			login(args, callbackContext);
 			return true;
+		} else if ("pay".equals(action)) {
+			pay(args, callbackContext);
+			return true;
 		}
 		return false;
+	}
+
+	private void pay(JSONArray args, CallbackContext callbackContext)
+			throws JSONException {
+		String id = webView.getContext().getString(R.string.wx_app_id);
+		api = WXAPIFactory.createWXAPI(webView.getContext(), id);
+		api.registerApp(id);
+		
+		JSONObject obj = args.getJSONObject(0);
+		PayReq req = new PayReq();
+		req.appId = id;
+		req.partnerId = obj.getString("partnerId");
+		req.prepayId = obj.getString("prepayid");
+		req.nonceStr = obj.getString("noncestr");
+		req.timeStamp = obj.getString("timestamp");
+		req.packageValue = obj.getString("package");
+		req.sign = obj.getString("sign");
+		api.sendReq(req);
 	}
 
 	private void login(JSONArray args, CallbackContext callbackContext)

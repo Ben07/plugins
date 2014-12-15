@@ -27,6 +27,9 @@
     <js-module src="www/sina.js" name="Sina">
         <clobbers target="plugin.Sina" />
     </js-module> 
+    <js-module src="www/alipay.js" name="AliPay">
+        <clobbers target="plugin.AliPay" />
+    </js-module> 
 
     <!-- android -->
     <platform name="android">
@@ -35,22 +38,25 @@
                 <param name="android-package" value="com.global.hbc.NotificationPlugin"/>
             </feature>
             
-		     <feature name="QQPlugin">
-	            <param name="android-package" value="com.global.hbc.QQPlugin"/>
-	         </feature>
-	            
-		     <feature name="ToastPlugin">
-	            <param name="android-package" value="com.global.hbc.ToastPlugin"/>
-	         </feature>
-	         
-		      <feature name="WeChatPlugin">
-                <param name="android-package" value="com.global.hbc.WeChatPlugin"/>
-            </feature>
+            <feature name="QQPlugin">
+               <param name="android-package" value="com.global.hbc.QQPlugin"/>
+           </feature>
 
-	<feature name="SinaPlugin">
-                <param name="android-package" value="com.global.hbc.SinaPlugin"/>
-            </feature>
-        </config-file>
+           <feature name="ToastPlugin">
+               <param name="android-package" value="com.global.hbc.ToastPlugin"/>
+           </feature>
+
+           <feature name="WeChatPlugin">
+            <param name="android-package" value="com.global.hbc.WeChatPlugin"/>
+        </feature>
+        <feature name="AliPayPlugin">
+            <param name="android-package" value="com.global.hbc.AliPayPlugin"/>
+        </feature>
+
+        <feature name="SinaPlugin">
+            <param name="android-package" value="com.global.hbc.SinaPlugin"/>
+        </feature>
+    </config-file>
     <config-file target="AndroidManifest.xml" parent="/manifest">
         <uses-permission android:name="android.permission.READ_LOGS" />
         <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -58,6 +64,7 @@
         <uses-permission android:name="android.permission.WAKE_LOCK" />
         <uses-permission android:name="android.permission.VIBRATE" />
         <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+        <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
@@ -108,15 +115,15 @@
             </intent-filter>
         </service>
         <service android:name="com.umeng.message.UmengIntentService" />
- 	 <meta-data
+        <meta-data
             android:name="UMENG_APPKEY"
             android:value="@string/um_appkey" >
         </meta-data>
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
             android:value="@string/um_secret" >
-    	</meta-data>
- 	<activity
+        </meta-data>
+        <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true" >
@@ -131,15 +138,15 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        
-     <activity
+
+        <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" 
-	    android:launchMode="singleTask"/>
+            android:launchMode="singleTask"/>
 
-    <activity
+        <activity
             android:name="SinaPlugin"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
@@ -149,23 +156,45 @@
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
             </intent-filter>
         </activity>
-    </config-file>
-    
-	<source-file src="src/NotificationPlugin.java" target-dir="src/com/global/hbc" />
-	<source-file src="libs/android-support-v4.jar" target-dir="libs" />
-	<source-file src="libs/com.umeng.message.lib.jar" target-dir="libs" />
-	
-	<source-file src="src/QQPlugin.java" target-dir="src/com/global/hbc" />
-	<source-file src="libs/mta-sdk-1.6.2.jar" target-dir="libs" />
-	<source-file src="libs/open_sdk_r4346.jar" target-dir="libs" />
-	
-	<source-file src="src/ToastPlugin.java" target-dir="src/com/global/hbc" />
-	
-	<source-file src="src/WeChatPlugin.java" target-dir="src/com/global/hbc" />
-	<source-file src="src/WXEntryActivity.java" target-dir="src/com/global/hbc/wxapi" />
-	<source-file src="libs/libammsdk.jar" target-dir="libs" />
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTask" />
+        </config-file>
 
-	<source-file src="src/SinaPlugin.java" target-dir="src/com/global/hbc" />
-	<source-file src="libs/weibosdkcore.jar" target-dir="libs" />
-     </platform>
+        <source-file src="src/NotificationPlugin.java" target-dir="src/com/global/hbc" />
+        <source-file src="libs/android-support-v4.jar" target-dir="libs" />
+        <source-file src="libs/com.umeng.message.lib.jar" target-dir="libs" />
+
+        <source-file src="src/QQPlugin.java" target-dir="src/com/global/hbc" />
+        <source-file src="libs/mta-sdk-1.6.2.jar" target-dir="libs" />
+        <source-file src="libs/open_sdk_r4346.jar" target-dir="libs" />
+
+        <source-file src="src/ToastPlugin.java" target-dir="src/com/global/hbc" />
+
+        <source-file src="src/WeChatPlugin.java" target-dir="src/com/global/hbc" />
+        <source-file src="src/WXEntryActivity.java" target-dir="src/com/global/hbc/wxapi" />
+        <source-file src="src/WXPayEntryActivity.java" target-dir="src/com/global/hbc/wxapi" />
+        <source-file src="libs/libammsdk.jar" target-dir="libs" />
+
+        <source-file src="src/SinaPlugin.java" target-dir="src/com/global/hbc" />
+        <source-file src="libs/weibosdkcore.jar" target-dir="libs" />
+
+         <source-file src="src/AliPayPlugin.java" target-dir="src/com/global/hbc" />
+         <source-file src="libs/alipaysdk.jar" target-dir="libs" />
+         <source-file src="libs/alipaysecsdk.jar" target-dir="libs" />
+         <source-file src="libs/alipayutdid.jar" target-dir="libs" />
+    </platform>
 </plugin>
