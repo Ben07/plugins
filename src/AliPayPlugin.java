@@ -18,7 +18,8 @@ import com.alipay.sdk.app.PayTask;
 
 public class AliPayPlugin extends CordovaPlugin {
 	public static final String ACTION_ENTRY = "pay";
-
+	private CallbackContext mCallbackContext = null;
+	
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 
@@ -29,6 +30,7 @@ public class AliPayPlugin extends CordovaPlugin {
 			if (TextUtils.equals(resultStatus, "9000")) {
 //				Toast.makeText(webView.getContext(), "支付成功", Toast.LENGTH_SHORT)
 //						.show();
+				mCallbackContext.success();
 			} else {
 				// 判断resultStatus 为非“9000”则代表可能支付失败
 				// “8000”
@@ -40,6 +42,7 @@ public class AliPayPlugin extends CordovaPlugin {
 				} else {
 					Toast.makeText(webView.getContext(), "支付失败",
 							Toast.LENGTH_SHORT).show();
+					mCallbackContext.error("失败");
 				}
 			}
 
@@ -50,6 +53,7 @@ public class AliPayPlugin extends CordovaPlugin {
 			CallbackContext callbackContext) throws JSONException {
 		if (ACTION_ENTRY.equals(action)) {
 			try {
+				mCallbackContext = callbackContext;
 				JSONObject obj = args.getJSONObject(0);
  				final String info = URLDecoder.decode(obj.getString("message"), "utf-8");
 

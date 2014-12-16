@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.global.hbc.R;
+import com.global.hbc.WeChatPlugin;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -22,7 +24,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-    	api = WXAPIFactory.createWXAPI(this, "wx69101da36875e566");
+    	api = WXAPIFactory.createWXAPI(this, this.getString(R.string.wx_app_id));
         api.handleIntent(getIntent(), this);
     }
 	
@@ -45,8 +47,9 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 		Runtime runtime = Runtime.getRuntime();
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
-			Toast.makeText(getApplicationContext(), "成功！", Toast.LENGTH_SHORT)
-					.show();
+//			Toast.makeText(getApplicationContext(), "成功！", Toast.LENGTH_SHORT)
+//					.show();
+			WeChatPlugin.currentCallbackContext.success();
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
 			Toast.makeText(getApplicationContext(), "取消！", Toast.LENGTH_SHORT)
@@ -55,6 +58,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 		case BaseResp.ErrCode.ERR_AUTH_DENIED:
 			Toast.makeText(getApplicationContext(), "失败！", Toast.LENGTH_SHORT)
 					.show();
+			WeChatPlugin.currentCallbackContext.error("失败");
 			break;
 		}
 		try {
