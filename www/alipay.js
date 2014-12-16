@@ -1,5 +1,5 @@
 /*
-message 为后台返回
+message为{message:message}
 */
 (function() {
   var exec;
