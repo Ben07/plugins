@@ -22,16 +22,25 @@ package com.global.hbc;
 import org.apache.cordova.Config;
 import org.apache.cordova.CordovaActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.StrictMode;
 
 import com.umeng.analytics.MobclickAgent;
 
+@SuppressLint("NewApi")
 public class HbcActivity extends CordovaActivity {
 	private final String mPageName = "HbcActivity";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+				.detectDiskReads().detectDiskWrites().detectAll().penaltyLog()
+				.build());
+		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+				.detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
+				.penaltyLog().penaltyDeath().build());
 		super.init();
 
 		// MobclickAgent.setDebugMode(true);
@@ -47,7 +56,6 @@ public class HbcActivity extends CordovaActivity {
 		String type = bun.getString("type");
 		String id = bun.getString("id");
 
-		
 		if (type != null) {
 			if ("product".equals(type)) {
 				super.loadUrl(index + "#notification?type=nomal&product=" + id);
@@ -59,7 +67,7 @@ public class HbcActivity extends CordovaActivity {
 				super.loadUrl(index + "#notification?type=nomal&idcard=" + id);
 			}
 			if ("home".equals(type)) {
-				//super.loadUrl(index + "debugMain.html");
+				// super.loadUrl(index + "debugMain.html");
 				super.loadUrl(index);
 			}
 			if ("event".equals(type)) {
@@ -67,18 +75,22 @@ public class HbcActivity extends CordovaActivity {
 				int intType = Integer.valueOf(eventType);
 				switch (intType) {
 				case 1:
-					super.loadUrl(index + "#notification?type=event&product=" + id);
+					super.loadUrl(index + "#notification?type=event&product="
+							+ id);
 					break;
 				case 2:
-					super.loadUrl(index + "#notification?type=event&productlist=" + id);
+					super.loadUrl(index
+							+ "#notification?type=event&productlist=" + id);
 				case 3:
-					super.loadUrl(index + "#notification?type=event&midpage=" + id);
+					super.loadUrl(index + "#notification?type=event&midpage="
+							+ id);
 				case 4:
-					super.loadUrl(index + "#notification?type=event&article=" + id);
+					super.loadUrl(index + "#notification?type=event&article="
+							+ id);
 				}
 			}
 		} else {
-			//super.loadUrl(index + "debugMain.html");
+			// super.loadUrl(index + "debugMain.html");
 			super.loadUrl(index);
 		}
 		// super.loadUrl("file:///android_asset/www/index.html");
