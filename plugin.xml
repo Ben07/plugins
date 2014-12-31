@@ -27,8 +27,13 @@
     <js-module src="www/sina.js" name="Sina">
         <clobbers target="plugin.Sina" />
     </js-module> 
+
     <js-module src="www/alipay.js" name="AliPay">
         <clobbers target="plugin.AliPay" />
+    </js-module> 
+    
+    <js-module src="www/version.js" name="Version">
+        <clobbers target="plugin.Version" />
     </js-module> 
 
     <!-- android -->
@@ -55,6 +60,9 @@
 
         <feature name="SinaPlugin">
             <param name="android-package" value="com.global.hbc.SinaPlugin"/>
+        </feature>
+	<feature name="VersionPlugin">
+            <param name="android-package" value="com.global.hbc.VersionPlugin"/>
         </feature>
     </config-file>
     <config-file target="AndroidManifest.xml" parent="/manifest">
