@@ -205,5 +205,7 @@
          <source-file src="libs/alipaysdk.jar" target-dir="libs" />
          <source-file src="libs/alipaysecsdk.jar" target-dir="libs" />
          <source-file src="libs/alipayutdid.jar" target-dir="libs" />
+
+	<source-file src="src/VersionPlugin.java" target-dir="src/com/global/hbc" />
     </platform>
 </plugin>
