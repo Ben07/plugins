@@ -23,6 +23,8 @@ import org.apache.cordova.Config;
 import org.apache.cordova.CordovaActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 
@@ -38,9 +40,6 @@ public class HbcActivity extends CordovaActivity {
 		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
 				.detectDiskReads().detectDiskWrites().detectAll().penaltyLog()
 				.build());
-		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-				.detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
-				.penaltyLog().penaltyDeath().build());
 		super.init();
 
 		// MobclickAgent.setDebugMode(true);
@@ -53,9 +52,14 @@ public class HbcActivity extends CordovaActivity {
 		Bundle bun = getIntent().getExtras();
 		// String index = Config.getStartUrl();
 
+		// 推送打开
 		String type = bun.getString("type");
 		String id = bun.getString("id");
-
+		
+		//链接打开
+		Intent i_getValue = getIntent();
+		String action = i_getValue.getAction();
+		
 		if (type != null) {
 			if ("product".equals(type)) {
 				super.loadUrl(index + "#notification?type=nomal&product=" + id);
@@ -87,6 +91,28 @@ public class HbcActivity extends CordovaActivity {
 				case 4:
 					super.loadUrl(index + "#notification?type=event&article="
 							+ id);
+				}
+			}
+		} else if (Intent.ACTION_VIEW.equals(action)) {
+			Uri uri = i_getValue.getData();
+			if(uri != null){
+				String linkType = uri.getQueryParameter("type");
+				String linkValue = uri.getQueryParameter("value");
+				int intLink = Integer.valueOf(linkType);
+				switch (intLink) {
+				case 1:
+					super.loadUrl(index + "#applink?product="
+							+ linkValue);
+					break;
+				case 2:
+					super.loadUrl(index
+							+ "#applink?productlist=" + linkValue);
+				case 3:
+					super.loadUrl(index + "#applink?midpage="
+							+ linkValue);
+				case 4:
+					super.loadUrl(index + "#applink?article="
+							+ linkValue);
 				}
 			}
 		} else {
