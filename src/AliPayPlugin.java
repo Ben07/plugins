@@ -60,7 +60,7 @@ public class AliPayPlugin extends CordovaPlugin {
 				Runnable payRunnable = new Runnable() {
 					@Override
 					public void run() {
-						PayTask alipay = new PayTask(webView.getActivity());
+						PayTask alipay = new PayTask(cordova.getActivity());
 						String result = alipay.pay(info);
 
 						Message msg = new Message();

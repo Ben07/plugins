@@ -122,7 +122,7 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 
 			.getContext().getString(R.string.sina_app_id), DIRECT_URL, "");
 			WeiboAuth weiboAuth = new WeiboAuth(webView.getContext(), authInfo);
-			mSsoHandler = new SsoHandler(webView.getActivity(), weiboAuth);
+			mSsoHandler = new SsoHandler(cordova.getActivity(), weiboAuth);
 
 			this.cordova.setActivityResultCallback(this);
 			this.cordova.getActivity().runOnUiThread(new Runnable() {
