@@ -1,4 +1,4 @@
-﻿package com.global.hbc;
+package com.global.hbc;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -122,7 +122,7 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 
 			.getContext().getString(R.string.sina_app_id), DIRECT_URL, "");
 			WeiboAuth weiboAuth = new WeiboAuth(webView.getContext(), authInfo);
-			mSsoHandler = new SsoHandler(cordova.getActivity(), weiboAuth);
+			mSsoHandler = new SsoHandler(webView.getActivity(), weiboAuth);
 
 			this.cordova.setActivityResultCallback(this);
 			this.cordova.getActivity().runOnUiThread(new Runnable() {
