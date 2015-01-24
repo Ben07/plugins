@@ -1,4 +1,4 @@
-package com.global.hbc;
+﻿package com.global.hbc;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -105,11 +105,11 @@ public class QQPlugin extends CordovaPlugin {
 			bundle.putString(QQShare.SHARE_TO_QQ_SUMMARY,
 					params.getString(KEY_ARG_MESSAGE_DESCRIPTION));
 
-			mTencent.shareToQQ(webView.getActivity(), bundle, BaseUiListener);
+			mTencent.shareToQQ(cordova.getActivity(), bundle, BaseUiListener);
 
 			return true;
 		} else if ("login".equals(action)) {
-			mTencent.login(webView.getActivity(), "", BaseUiListener);
+			mTencent.login(cordova.getActivity(), "", BaseUiListener);
 			return true;
 		}
 		return false;
