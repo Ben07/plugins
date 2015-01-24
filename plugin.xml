@@ -67,6 +67,9 @@
 	<feature name="VersionPlugin">
             <param name="android-package" value="com.global.hbc.VersionPlugin"/>
         </feature>
+	<feature name="ClearPlugin">
+            <param name="android-package" value="com.global.hbc.ClearPlugin"/>
+        </feature>
     </config-file>
     <config-file target="AndroidManifest.xml" parent="/manifest">
         <uses-permission android:name="android.permission.READ_CONTACTS" />
