@@ -66,14 +66,23 @@
         </feature>
     </config-file>
     <config-file target="AndroidManifest.xml" parent="/manifest">
-        <uses-permission android:name="android.permission.READ_LOGS" />
-        <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-        <uses-permission android:name="android.permission.WAKE_LOCK" />
-        <uses-permission android:name="android.permission.VIBRATE" />
-        <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-        <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
-    </config-file>
+        <uses-permission android:name="android.permission.READ_CONTACTS" />
+    	<uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+    	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    	<uses-permission android:name="android.permission.RECORD_VIDEO" />
+    	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    	<uses-permission android:name="android.permission.READ_LOGS" />
+    	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    	<uses-permission android:name="android.permission.WAKE_LOCK" />
+    	<uses-permission android:name="android.permission.VIBRATE" />
+    	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    	<uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
+    	</config-file>
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
         <receiver
@@ -207,5 +216,6 @@
          <source-file src="libs/alipayutdid.jar" target-dir="libs" />
 
 	<source-file src="src/VersionPlugin.java" target-dir="src/com/global/hbc" />
+	<source-file src="libs/umeng-analytics-v5.2.4.jar" target-dir="libs" />
     </platform>
 </plugin>
