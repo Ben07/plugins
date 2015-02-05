@@ -9,72 +9,43 @@ import org.json.JSONException;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 public class ClearPlugin extends CordovaPlugin {
 	@Override
 	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
 		if ("clear".equals(action)) {
-			Context context = webView.getContext();
-			cleanInternalCache(context);
-			cleanExternalCache(context);
-			cleanDatabases(context);
-			cleanSharedPreference(context);
-			cleanFiles(context);
+			clearApplicationData();
+			callbackContext.success();
 			return true;
 		}
 		return false;
 	}
 
-	public void cleanInternalCache(Context context) {
-		deleteFilesByDirectory(context.getCacheDir());
+	public void clearApplicationData() {
+	    File cache = webView.getContext().getCacheDir();
+	    File appDir = new File(cache.getParent());
+	    if (appDir.exists()) {
+	        String[] children = appDir.list();
+	        for (String s : children) {
+	            if (!s.equals("lib")) {
+	                deleteDir(new File(appDir, s));
+	            }
+	        }
+	    }
 	}
 
-	public void cleanDatabases(Context context) {
-		deleteFilesByDirectory(new File("/data/data/"
-				+ context.getPackageName() + "/databases"));
-	}
-
-	public void cleanSharedPreference(Context context) {
-		deleteFilesByDirectory(new File("/data/data/"
-				+ context.getPackageName() + "/shared_prefs"));
-	}
-
-	public void cleanDatabaseByName(Context context, String dbName) {
-		context.deleteDatabase(dbName);
-	}
-
-	public void cleanFiles(Context context) {
-		deleteFilesByDirectory(context.getFilesDir());
-	}
-
-	public void cleanExternalCache(Context context) {
-		if (Environment.getExternalStorageState().equals(
-				Environment.MEDIA_MOUNTED)) {
-			deleteFilesByDirectory(context.getExternalCacheDir());
-		}
-	}
-
-	public void cleanCustomCache(String filePath) {
-		deleteFilesByDirectory(new File(filePath));
-	}
-
-//	public void cleanApplicationData(Context context, String... filepath) {
-//		cleanInternalCache(context);
-//		cleanExternalCache(context);
-//		cleanDatabases(context);
-//		cleanSharedPreference(context);
-//		cleanFiles(context);
-//		for (String filePath : filepath) {
-//			cleanCustomCache(filePath);
-//		}
-//	}
-
-	private static void deleteFilesByDirectory(File directory) {
-		if (directory != null && directory.exists() && directory.isDirectory()) {
-			for (File item : directory.listFiles()) {
-				item.delete();
-			}
-		}
+	public boolean deleteDir(File dir) {
+	    if (dir != null && dir.isDirectory()) {
+	        String[] children = dir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            boolean success = deleteDir(new File(dir, children[i]));
+	            if (!success) {
+	                return false;
+	            }
+	        }
+	    }
+	    return dir.delete();
 	}
 }
