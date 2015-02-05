@@ -4,8 +4,8 @@
   exec = require('cordova/exec');
 
   module.exports = {
-    clear: function() {
-      return exec(function(){}, function(){}, 'ClearPlugin', 'clear', []);
+    clear: function(onSuccess,onError) {
+      return exec(onSuccess, onError, 'ClearPlugin', 'clear', []);
     }
   };
 
