@@ -256,5 +256,8 @@
         <source-file src="src/upyun/UploaderManager.java" target-dir="src/com/global/hbc/upyun" />
         <source-file src="src/upyun/UpYunException.java" target-dir="src/com/global/hbc/upyun" />
         <source-file src="src/upyun/UpYunUtils.java" target-dir="src/com/global/hbc/upyun" />
+        <source-file src="libs/android-async-http-1.4.6.jar" target-dir="libs" />
+        <source-file src="libs/commons-codec-1.6.jar" target-dir="libs" />
+        <source-file src="libs/json-20140107.jar" target-dir="libs" />
     </platform>
 </plugin>
