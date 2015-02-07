@@ -238,6 +238,7 @@
 
     	<source-file src="src/VersionPlugin.java" target-dir="src/com/global/hbc" />
     	<source-file src="libs/umeng-analytics-v5.2.4.jar" target-dir="libs" />
+	<source-file src="libs/umeng-update-v2.5.0.jar" target-dir="libs" />
 
     	<source-file src="src/ClearPlugin.java" target-dir="src/com/global/hbc" />
 

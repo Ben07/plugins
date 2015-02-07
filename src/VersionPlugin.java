@@ -23,7 +23,10 @@ public class VersionPlugin extends CordovaPlugin {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+		}
+		if("check".equals(action)){
+			UmengUpdateAgent.forceUpdate(webView.getContext());
+			return true;
 		}
 		return false;
 	}
