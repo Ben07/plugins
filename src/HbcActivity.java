@@ -46,6 +46,7 @@ import com.global.hbc.upyun.ProgressListener;
 import com.global.hbc.upyun.UpYunUtils;
 import com.global.hbc.upyun.UploaderManager;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 @SuppressLint("NewApi")
 public class HbcActivity extends CordovaActivity {
