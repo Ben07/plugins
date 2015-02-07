@@ -241,6 +241,7 @@
 
     	<source-file src="src/ClearPlugin.java" target-dir="src/com/global/hbc" />
 
+        <source-file src="src/CameraPlugin.java" target-dir="src/com/global/hbc" />
         <source-file src="src/upyun/AsyncRun.java" target-dir="src/com/global/hbc/upyun" />
         <source-file src="src/upyun/Base64Coder.java" target-dir="src/com/global/hbc/upyun" />
         <source-file src="src/upyun/BlockUploader.java" target-dir="src/com/global/hbc/upyun" />
