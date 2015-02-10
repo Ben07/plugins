@@ -21,6 +21,7 @@ package com.global.hbc;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
@@ -35,6 +36,8 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -158,15 +161,15 @@ public class HbcActivity extends CordovaActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+
 		// 身份证图片，需要打码
 		if (CameraPlugin.hasWaterMask) {
 			bucket = getString(R.string.id_card_bucket);
 			secret = getString(R.string.id_card_secret);
-			savePath = CameraPlugin.userId + "_";
+			savePath = "/" + CameraPlugin.userId + "_";
 
 			Bitmap bitmap_2 = BitmapFactory.decodeResource(getResources(),
 					R.drawable.watermask);
-			bitmap_2 = Bitmap.createScaledBitmap(bitmap_2, 800, 800, true);
 
 			// 从相册中获得
 			if (requestCode == 1
@@ -179,8 +182,8 @@ public class HbcActivity extends CordovaActivity {
 					Bitmap bitmap_1 = BitmapFactory.decodeStream(stream);
 					stream.close();
 
-					bitmap_1 = Bitmap.createScaledBitmap(bitmap_1, 800, 800,
-							true);
+					bitmap_1 = scaleBitmap(bitmap_1);
+					bitmap_2 = Bitmap.createScaledBitmap(bitmap_2, bitmap_1.getWidth(), bitmap_1.getHeight(), true);
 					Bitmap bitmap = makeBitmap(bitmap_1, bitmap_2);
 					persistImage(bitmap, "scaledBitmap");
 				} catch (Exception e) {
@@ -193,11 +196,17 @@ public class HbcActivity extends CordovaActivity {
 						&& resultCode == android.app.Activity.RESULT_OK) {
 					// 拍照
 					try {
+						Matrix matrix = new Matrix();
+						matrix.postRotate(getImageOrientation(CameraPlugin.mPath));
+
 						Bitmap bitmap_1 = BitmapFactory
 								.decodeFile(CameraPlugin.mPath);
-
-						bitmap_1 = Bitmap.createScaledBitmap(bitmap_1, 800,
-								800, true);
+						bitmap_1 = scaleBitmap(bitmap_1);
+						bitmap_1 = Bitmap.createBitmap(bitmap_1, 0, 0,
+								bitmap_1.getWidth(), bitmap_1.getHeight(),
+								matrix, true);
+						
+						bitmap_2 = Bitmap.createScaledBitmap(bitmap_2, bitmap_1.getWidth(), bitmap_1.getHeight(), true);
 						Bitmap bitmap = makeBitmap(bitmap_1, bitmap_2);
 						persistImage(bitmap, "scaledBitmap");
 					} catch (Exception e) {
@@ -219,24 +228,26 @@ public class HbcActivity extends CordovaActivity {
 							uri);
 					Bitmap bitmap = BitmapFactory.decodeStream(stream);
 					stream.close();
-					bitmap = Bitmap.createScaledBitmap(bitmap, 800, 800, true);
+					bitmap = scaleBitmap(bitmap);
 					persistImage(bitmap, "scaledBitmap");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			} else {
 				if (requestCode == 1
 						&& resultCode == android.app.Activity.RESULT_OK) {
+					Matrix matrix = new Matrix();
+					matrix.postRotate(getImageOrientation(CameraPlugin.mPath));
+
 					// 拍照
 					try {
 						Bitmap bitmap = BitmapFactory
 								.decodeFile(CameraPlugin.mPath);
-
-						bitmap = Bitmap.createScaledBitmap(bitmap, 800, 800,
+						bitmap = scaleBitmap(bitmap);
+						bitmap = Bitmap.createBitmap(bitmap, 0, 0,
+								bitmap.getWidth(), bitmap.getHeight(), matrix,
 								true);
-
 						persistImage(bitmap, "scaledBitmap");
 					} catch (Exception e) {
 						Log.e("------image error", e.getMessage());
@@ -246,11 +257,61 @@ public class HbcActivity extends CordovaActivity {
 		}
 	}
 
+	public int getImageOrientation(String imagePath) {
+		int rotate = 0;
+		try {
+
+			File imageFile = new File(imagePath);
+			ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+			int orientation = exif.getAttributeInt(
+					ExifInterface.TAG_ORIENTATION,
+					ExifInterface.ORIENTATION_NORMAL);
+
+			switch (orientation) {
+			case ExifInterface.ORIENTATION_ROTATE_270:
+				rotate = 270;
+				break;
+			case ExifInterface.ORIENTATION_ROTATE_180:
+				rotate = 180;
+				break;
+			case ExifInterface.ORIENTATION_ROTATE_90:
+				rotate = 90;
+				break;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return rotate;
+	}
+
+	private Bitmap scaleBitmap(Bitmap bm) {
+		int width, height;
+		float rotate;
+		rotate = bm.getHeight() / bm.getWidth();
+		// 高多于宽
+		if (rotate > 0.5625) {
+			height = bm.getHeight();
+			if (height > 720) {
+				height = 720;
+			}
+			width = height * bm.getWidth() / bm.getHeight();
+		} else {
+			width = bm.getWidth();
+			if (width > 1280) {
+				width = 1280;
+			}
+			height = width * bm.getHeight() / bm.getWidth();
+		}
+		return Bitmap.createScaledBitmap(bm, width, height, true);
+	}
+
 	private Bitmap makeBitmap(Bitmap src, Bitmap watermask) {
-		Bitmap bm = Bitmap.createBitmap(800, 800, Config.ARGB_8888);
+		Bitmap bm = Bitmap.createBitmap(src.getWidth(), src.getHeight(),
+				Config.ARGB_8888);
 		Canvas cv = new Canvas(bm);
 		cv.drawBitmap(src, 0, 0, null);
-		cv.drawBitmap(watermask, 0, 800 - watermask.getHeight(), null);
+		cv.drawBitmap(watermask, 0,
+				Math.abs(src.getHeight() - watermask.getHeight()), null);
 		cv.save(Canvas.ALL_SAVE_FLAG);
 		cv.restore();
 		return bm;
