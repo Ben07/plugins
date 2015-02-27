@@ -58,7 +58,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 		case BaseResp.ErrCode.ERR_AUTH_DENIED:
 			Toast.makeText(getApplicationContext(), "失败！", Toast.LENGTH_SHORT)
 					.show();
-			WeChatPlugin.currentCallbackContext.error("失败");
 			break;
 		}
 		try {

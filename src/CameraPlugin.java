@@ -28,13 +28,13 @@ public class CameraPlugin extends CordovaPlugin {
 		mCallbackContext = callbackContext;
 		JSONObject obj = args.getJSONObject(0);
 		int type = obj.getInt("type");
-		if(type == 0){
+		if (type == 0) {
 			hasWaterMask = false;
-		}else{
+		} else {
 			hasWaterMask = true;
 			userId = obj.getString("userId");
 		}
-		
+
 		if (ACTION_CAMERA_ENTRY.equals(action)) {
 			cordova.getActivity().runOnUiThread(new Runnable() {
 				@Override

@@ -19,7 +19,7 @@ import com.alipay.sdk.app.PayTask;
 public class AliPayPlugin extends CordovaPlugin {
 	public static final String ACTION_ENTRY = "pay";
 	private CallbackContext mCallbackContext = null;
-	
+
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 
@@ -28,8 +28,9 @@ public class AliPayPlugin extends CordovaPlugin {
 
 			// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
 			if (TextUtils.equals(resultStatus, "9000")) {
-//				Toast.makeText(webView.getContext(), "支付成功", Toast.LENGTH_SHORT)
-//						.show();
+				// Toast.makeText(webView.getContext(), "支付成功",
+				// Toast.LENGTH_SHORT)
+				// .show();
 				mCallbackContext.success();
 			} else {
 				// 判断resultStatus 为非“9000”则代表可能支付失败
@@ -45,28 +46,26 @@ public class AliPayPlugin extends CordovaPlugin {
 					mCallbackContext.error("失败");
 				}
 			}
-
 		};
 	};
 
 	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
+
 		if (ACTION_ENTRY.equals(action)) {
 			try {
 				mCallbackContext = callbackContext;
 				JSONObject obj = args.getJSONObject(0);
- 				final String info = URLDecoder.decode(obj.getString("message"), "utf-8");
-
+				final String info = URLDecoder.decode(obj.getString("message"),
+						"utf-8");
 				Runnable payRunnable = new Runnable() {
 					@Override
 					public void run() {
 						PayTask alipay = new PayTask(cordova.getActivity());
 						String result = alipay.pay(info);
-
 						Message msg = new Message();
 						msg.obj = result;
 						mHandler.sendMessage(msg);
-
 					}
 				};
 
@@ -74,9 +73,9 @@ public class AliPayPlugin extends CordovaPlugin {
 				payThread.start();
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
+				mCallbackContext.error(0);
 				e.printStackTrace();
 			}
-
 			return true;
 		}
 		return false;

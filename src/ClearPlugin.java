@@ -7,10 +7,6 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.content.Context;
-import android.os.Environment;
-import android.util.Log;
-
 public class ClearPlugin extends CordovaPlugin {
 	@Override
 	public boolean execute(String action, JSONArray args,

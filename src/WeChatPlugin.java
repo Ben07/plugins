@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
@@ -51,6 +50,9 @@ public class WeChatPlugin extends CordovaPlugin {
 			throws JSONException {
 		String id = webView.getContext().getString(R.string.wx_app_id);
 		api = WXAPIFactory.createWXAPI(webView.getContext(), id);
+		if(!api.isWXAppInstalled()){
+			callbackContext.error(0);
+		}
 		api.registerApp(id);
 		
 		JSONObject obj = args.getJSONObject(0);
@@ -69,6 +71,9 @@ public class WeChatPlugin extends CordovaPlugin {
 			throws JSONException {
 		String id = webView.getContext().getString(R.string.wx_app_id);
 		api = WXAPIFactory.createWXAPI(this.webView.getContext(), id, true);
+		if(!api.isWXAppInstalled()){
+			callbackContext.error(0);
+		}
 		api.registerApp(id);
 		final SendAuth.Req req = new SendAuth.Req();
 		req.scope = "snsapi_userinfo";
@@ -81,14 +86,17 @@ public class WeChatPlugin extends CordovaPlugin {
 		JSONObject params = args.getJSONObject(0);
 		String appid = webView.getContext().getString(R.string.wx_app_id);
 		api = WXAPIFactory.createWXAPI(webView.getContext(), appid, true);
+		if(!api.isWXAppInstalled()){
+			callbackContext.error(0);
+		}
 		boolean registerRes = api.registerApp(appid);
 		Log.i("register result", String.valueOf(registerRes));
 
-		if (!api.isWXAppInstalled()) {
-			Toast.makeText(webView.getContext(), "请您先安装微信客户端",
-					Toast.LENGTH_SHORT).show();
-			return false;
-		}
+//		if (!api.isWXAppInstalled()) {
+//			Toast.makeText(webView.getContext(), "请您先安装微信客户端",
+//					Toast.LENGTH_SHORT).show();
+//			return false;
+//		}
 
 		WXWebpageObject webpage = new WXWebpageObject();
 		webpage.webpageUrl = params.getString(KEY_ARG_MESSAGE_WEBPAGEURL);

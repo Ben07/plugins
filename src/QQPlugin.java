@@ -104,7 +104,8 @@ public class QQPlugin extends CordovaPlugin {
 			}
 			bundle.putString(QQShare.SHARE_TO_QQ_SUMMARY,
 					params.getString(KEY_ARG_MESSAGE_DESCRIPTION));
-
+			
+			
 			mTencent.shareToQQ(cordova.getActivity(), bundle, BaseUiListener);
 
 			return true;

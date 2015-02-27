@@ -49,6 +49,7 @@ import com.global.hbc.upyun.ProgressListener;
 import com.global.hbc.upyun.UpYunUtils;
 import com.global.hbc.upyun.UploaderManager;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
 import com.umeng.update.UmengUpdateAgent;
 
 @SuppressLint("NewApi")
@@ -68,6 +69,9 @@ public class HbcActivity extends CordovaActivity {
 		super.init();
 
 		UmengUpdateAgent.update(this);
+		PushAgent mPushAgent = PushAgent.getInstance(this);
+		mPushAgent.enable();
+		mPushAgent.onAppStart();
 		// MobclickAgent.setDebugMode(true);
 		MobclickAgent.openActivityDurationTrack(false);
 		// MobclickAgent.updateOnlineConfig(this);
@@ -185,6 +189,10 @@ public class HbcActivity extends CordovaActivity {
 					bitmap_1 = scaleBitmap(bitmap_1);
 					bitmap_2 = Bitmap.createScaledBitmap(bitmap_2, bitmap_1.getWidth(), bitmap_1.getHeight(), true);
 					Bitmap bitmap = makeBitmap(bitmap_1, bitmap_2);
+					
+					//release bitmap
+					bitmap_1.recycle();
+					bitmap_2.recycle();
 					persistImage(bitmap, "scaledBitmap");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -208,6 +216,11 @@ public class HbcActivity extends CordovaActivity {
 						
 						bitmap_2 = Bitmap.createScaledBitmap(bitmap_2, bitmap_1.getWidth(), bitmap_1.getHeight(), true);
 						Bitmap bitmap = makeBitmap(bitmap_1, bitmap_2);
+						
+						//release bitmap
+						bitmap_1.recycle();
+						bitmap_2.recycle();
+						
 						persistImage(bitmap, "scaledBitmap");
 					} catch (Exception e) {
 						Log.e("------image error", e.getMessage());
@@ -327,6 +340,10 @@ public class HbcActivity extends CordovaActivity {
 			os.flush();
 			os.close();
 			mFile = imageFile;
+			//release bitmap
+			bitmap.recycle();
+			System.gc();
+			
 			new UploadTask().execute();
 		} catch (Exception e) {
 			Log.e(getClass().getSimpleName(), "Error writing bitmap", e);

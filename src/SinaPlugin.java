@@ -91,6 +91,7 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 							params.getString(KEY_ARG_MESSAGE_DESCRIPTION),
 							params.getString(KEY_ARG_MESSAGE_THUMB),
 							params.getString(KEY_ARG_MESSAGE_WEBPAGEURL));
+					
 				} else {
 					weiboMessage.mediaObject = getTextObj(
 							params.getString(KEY_ARG_MESSAGE_TITLE),
@@ -111,12 +112,6 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 			Log.e("send result", String.valueOf(sendRes));
 			return true;
 		} else if ("login".equals(action)) {
-			// mCallbackContext = callbackContext;
-			// mWeiboAuth = new WeiboAuth(webView.getContext(), webView
-			// .getContext().getString(R.string.sina_app_id), DIRECT_URL,
-			// "");
-			// mWeiboAuth
-			// .authorize(new AuthListener(), WeiboAuth.OBTAIN_AUTH_CODE);
 			mCallbackContext = callbackContext;
 			AuthInfo authInfo = new AuthInfo(webView.getContext(), webView
 
@@ -163,18 +158,8 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 						.parseAccessToken(arg0);
 				String uid = accessToken.getUid();
 				String token = accessToken.getToken();
-//				List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-//				params.add(new BasicNameValuePair("access_token", token));
-//				params.add(new BasicNameValuePair("uid", uid));
-//
-//				String param = URLEncodedUtils.format(params, "UTF-8");
-//				String baseUrl = "https://api.weibo.com/2/users/show.json";
+
 				try {
-//					HttpGet getMethod = new HttpGet(baseUrl + "?" + param);
-//					HttpClient httpClient = new DefaultHttpClient();
-//					HttpResponse response = httpClient.execute(getMethod);
-//					JSONObject json = new JSONObject(
-//							EntityUtils.toString(response.getEntity()));
 					JSONObject json = getWBMemberInfo(uid,token);
 					mCallbackContext.success(json);
 
@@ -242,7 +227,7 @@ public class SinaPlugin extends CordovaPlugin implements IWeiboHandler.Response 
 
 		return obj;
 	}
-
+	
 	private WebpageObject getWebpageObj(String title, String des, String thumb,
 			String webpageUrl) throws IOException {
 		WebpageObject obj = new WebpageObject();
